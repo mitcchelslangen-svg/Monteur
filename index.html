@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Gradio-Lite: Serverless Gradio Running Entirely in Your Browser</title>
+        <meta name="description" content="Gradio-Lite: Serverless Gradio Running Entirely in Your Browser">
+
+        <script type="module" crossorigin src="https://cdn.jsdelivr.net/npm/@gradio/lite/dist/lite.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gradio/lite/dist/lite.css" />
+
+        <style>
+            html, body {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <gradio-lite>
+            <gradio-file name="app.py" entrypoint>
+import gradio as gr
+
+from filters import as_gray
+
+def process(input_image):
+    output_image = as_gray(input_image)
+    return output_image
+
+demo = gr.Interface(
+    process,
+    "image",
+    "image",
+    examples=["lion.jpg", "logo.png"],
+)
+
+demo.launch()
+            </gradio-file>
+
+            <gradio-file name="filters.py">
+from skimage.color import rgb2gray
+
+def as_gray(image):
+    return rgb2gray(image)
+            </gradio-file>
+
+            <gradio-file name="lion.jpg" url="https://raw.githubusercontent.com/gradio-app/gradio/main/gradio/test_data/lion.jpg" />
+            <gradio-file name="logo.png" url="https://raw.githubusercontent.com/gradio-app/gradio/main/guides/assets/logo.png" />
+
+            <gradio-requirements>
+# Same syntax as requirements.txt
+scikit-image
+            </gradio-requirements>
+        </gradio-lite>
+    </body>
+</html>
