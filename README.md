@@ -1,5 +1,5 @@
 ---
-title: Gradio Lite
+title: Cv Storingsmonteur
 emoji: 🖼️
 colorFrom: yellow
 colorTo: red
