@@ -3,30 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV-Storingsmonteur Assistent</title>
+    <title>Pleunis Montech - Interne CV-Assistent</title>
     <style>
-        body { font-family: sans-serif; background: #f4f4f9; margin: 0; padding: 15px; display: flex; justify-content: center; }
-        .chat-card { width: 100%; max-width: 500px; background: white; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; flex-direction: column; height: 85vh; }
-        h3 { margin-top: 0; text-align: center; color: #333; }
-        #chat-messages { flex: 1; overflow-y: auto; border: 1px solid #eee; border-radius: 8px; padding: 10px; margin-bottom: 10px; background: #fafafa; display: flex; flex-direction: column; gap: 8px; }
-        .msg { padding: 8px 12px; border-radius: 8px; font-size: 14px; max-width: 80%; line-height: 1.4; }
-        .bot { background: #e3f2fd; color: #0d47a1; align-self: flex-start; }
-        .user { background: #007bff; color: white; align-self: flex-end; }
+        body { font-family: sans-serif; background: #eef2f5; margin: 0; padding: 15px; display: flex; justify-content: center; }
+        .chat-card { width: 100%; max-width: 550px; background: white; border-radius: 12px; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; height: 85vh; }
+        .header { background: #003366; color: white; border-radius: 8px; padding: 10px 15px; margin-bottom: 12px; text-align: center; }
+        .header h3 { margin: 0; font-size: 18px; }
+        .header p { margin: 3px 0 0 0; font-size: 12px; opacity: 0.8; }
+        #chat-messages { flex: 1; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 10px; background: #f9fbfd; display: flex; flex-direction: column; gap: 10px; }
+        .msg { padding: 10px 14px; border-radius: 8px; font-size: 14px; max-width: 85%; line-height: 1.4; }
+        .bot { background: #e3f2fd; color: #002244; align-self: flex-start; border-left: 4px solid #003366; }
+        .user { background: #003366; color: white; align-self: flex-end; }
         .input-box { display: flex; gap: 8px; }
-        input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
-        button { padding: 10px 15px; background: #28a745; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        input { flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        button { padding: 12px 18px; background: #003366; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="chat-card">
-    <h3>🔧 CV-Storingsmonteur</h3>
+    <div class="header">
+        <h3>🔧 Pleunis Monteurs Assistent</h3>
+        <p>Interne tool voor diagnose, storingscodes & technische hulp</p>
+    </div>
     <div id="chat-messages">
-        <div class="msg bot">Hallo! Ik ben je digitale CV-monteur. Welk merk cv-ketel heb je en wat is de storing of foutcode?</div>
+        <div class="msg bot">Werkze! Voer het merk, model en de storingscode of symptomen in voor een technische diagnose en stappenplan.</div>
     </div>
     <div class="input-box">
-        <input type="text" id="userInput" placeholder="Typ je bericht..." onkeydown="if(event.key === 'Enter') verstuur()">
-        <button onclick="verstuur()">Stuur</button>
+        <input type="text" id="userInput" placeholder="Bijv: Remeha E4 of Vaillant F28..." onkeydown="if(event.key === 'Enter') verstuur()">
+        <button onclick="verstuur()">Zoek</button>
     </div>
 </div>
 
@@ -49,21 +54,22 @@
             botDiv.className = 'msg bot';
             
             const txt = tekst.toLowerCase();
+            
             if(txt.includes('f28') || txt.includes('f.28')) {
-                botDiv.innerText = "Foutcode F28 (Vaillant) betekent een mislukte ontsteking. Controleer of de gaskraan open staat en of er gas is.";
+                botDiv.innerText = "🛠 Vaillant F28 - Geen ontsteking bij start:\n\n1. Controleer gassamenstelling/gasdruk (statisch/dynamisch min. 20 mbar).\n2. Controleer ontstekingselektrode & ionisatieweerstand/afstand.\n3. Controleer de gasblok-aansturing en printplaat (230V sturing op gasblok).\n4. Aarde van de ketel controleren.";
             } else if(txt.includes('e4') || txt.includes('e04')) {
-                botDiv.innerText = "Foutcode E4 (Remeha) geeft vaak een lage waterdruk aan. Controleer of de druk tussen 1,5 en 2,0 bar staat.";
-            } else if(txt.includes('druk') || txt.includes('bar')) {
-                botDiv.innerText = "De waterdruk hoort tussen 1,5 en 2,0 bar te zijn. Is hij lager? Vul de ketel dan bij via de vulkraan.";
-            } else if(txt.includes('gas') || txt.includes('geur') || txt.includes('lek')) {
-                botDiv.innerText = "⚠️ LET OP: Ruik je gas of vermoed je een lek? Sluit direct de hoofdgaskraan, ventileer en bel een gecertificeerde monteur!";
+                botDiv.innerText = "🛠 Remeha E4 - Druk- / Doorstromingsfout:\n\n1. Controleer waterdruk sensor (moet > 0.8 bar zijn, ideaal 1.5-2.0 bar).\n2. Controleer doorstroming / pompwerking en ontluchting.\n3. Controleer bedrading van de druksensor naar de automaat.\n4. Defecte druksensor vervangen indien druk fysiek OK is.";
+            } else if(txt.includes('f22') || txt.includes('f.22')) {
+                botDiv.innerText = "🛠 Vaillant F22 - Droogkookbeveiliging / Watergebrek:\n\n1. Waterdruk fysiek meten.\n2. Pomp testen op vastzitten / draaiing.\n3. NTC-sensoren (aanvoer/retoer) doormeten op afwijking.\n4. Waterdruksensor of pomp vervangen.";
+            } else if(txt.includes('e1') || txt.includes('e01')) {
+                botDiv.innerText = "🛠 Remeha E1 / Intergas E1 - Vlamuitval / Ontstekingsfout:\n\n1. Vlamionisatiestroom meten (min. 4-5 µA).\n2. CO2-afstelling op hoog- en laaglast controleren.\n3. Controleer elektrode op slijtage / vervuiling.\n4. Syphon/condensafvoer gecontroleerd op verstopping?";
             } else {
-                botDiv.innerText = "Bedankt voor je bericht. Zorg ervoor dat je de waterdruk controleert (1.5-2.0 bar) en vermeld het merk en het type storingscode voor een specifiek advies.";
+                botDiv.innerText = "Geen specifieke storingscode herkend. Vermeld het merk en de exacte code (bijv. Vaillant F28, Remeha E4, Intergas 4). Je kunt ook technische documentatie en handleidingen inzien via het interne portaal.";
             }
 
             box.appendChild(botDiv);
             box.scrollTop = box.scrollHeight;
-        }, 600);
+        }, 500);
     }
 </script>
 
