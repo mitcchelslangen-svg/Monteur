@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pleunis Monteurs Assistent</title>
+    <title>Pleunis Monteurs Assistent - Handleidingen</title>
     <style>
         body { font-family: sans-serif; background: #eef2f5; margin: 0; padding: 15px; display: flex; justify-content: center; }
-        .chat-card { width: 100%; max-width: 600px; background: white; border-radius: 12px; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; height: 88vh; }
+        .chat-card { width: 100%; max-width: 650px; background: white; border-radius: 12px; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; height: 90vh; }
         .header { background: #003366; color: white; border-radius: 8px; padding: 10px 15px; margin-bottom: 10px; text-align: center; }
         .header h3 { margin: 0; font-size: 18px; }
         .header p { margin: 3px 0 0 0; font-size: 12px; opacity: 0.85; }
         .models-bar { background: #e3f2fd; color: #003366; padding: 6px 10px; border-radius: 6px; font-size: 11px; margin-bottom: 10px; text-align: center; font-weight: bold; }
         #chat-messages { flex: 1; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 10px; background: #f9fbfd; display: flex; flex-direction: column; gap: 10px; }
-        .msg { padding: 10px 14px; border-radius: 8px; font-size: 13px; max-width: 88%; line-height: 1.45; whitespace: pre-line; }
+        .msg { padding: 10px 14px; border-radius: 8px; font-size: 13px; max-width: 90%; line-height: 1.45; white-space: pre-line; }
         .bot { background: #eef4fc; color: #002244; align-self: flex-start; border-left: 4px solid #003366; }
         .user { background: #003366; color: white; align-self: flex-end; }
         .input-box { display: flex; gap: 8px; }
@@ -25,16 +25,19 @@
 <div class="chat-card">
     <div class="header">
         <h3>🔧 Pleunis Monteurs Assistent</h3>
-        <p>Interne storingsdatabase & diagnose-tool</p>
+        <p>Inclusief handleiding-database & storingsanalyse</p>
     </div>
     <div class="models-bar">
-        Ondersteund: Nefit ProLine NxT | Vaillant ecoTEC plus | Remeha Avanta | Remeha Avanta Ace
+        Handleidingen geladen: Nefit ProLine NxT | Vaillant ecoTEC plus | Remeha Avanta & Avanta Ace
     </div>
     <div id="chat-messages">
-        <div class="msg bot">Werkze! Voer de storingscode of de symptomen in van de cv-ketel (bijv: "Avanta E4", "ecoTEC F28", "ProLine 6A", "Avanta Ace E04").</div>
+        <div class="msg bot">Welke ketel en storing wil je opzoeken? Typ bijvoorbeeld:
+- "ProLine 6A" (of C0)
+- "ecoTEC F28" (of F22)
+- "Avanta E4" (of E10)</div>
     </div>
     <div class="input-box">
-        <input type="text" id="userInput" placeholder="Code of symptoom (bijv. F28, E4, 6A, waterdruk)..." onkeydown="if(event.key === 'Enter') verstuur()">
+        <input type="text" id="userInput" placeholder="Typ merk + code/symptoom..." onkeydown="if(event.key === 'Enter') verstuur()">
         <button onclick="verstuur()">Zoek</button>
     </div>
 </div>
@@ -60,9 +63,87 @@
             const txt = tekst.toLowerCase();
             let antwoord = "";
 
-            // --- NEFIT PROLINE NXT ---
-            if(txt.includes('6a') || txt.includes('6c') || txt.includes('6l')) {
-                antwoord = "🔴 **Nefit ProLine NxT - Code 6A / 6C / 6L (Geen ionisatie / Vlamuitval)**\n\n" +
-                           "1. **Gasdruk:** Controleer dynamische gasvoordruk (minimaal 20 mbar).\n" +
-                           "2. **Ionisatie:** Controleer afstand en vervuiling ionisatie- / ontstekingselektrode.\n" +
-                           "3. **S
+            // --- NEFIT PROLINE NXT HANDLEIDING DATA ---
+            if(txt.includes('proline') || txt.includes('nefit') || txt.includes('6a') || txt.includes('6c') || txt.includes('c0') || txt.includes('2e')) {
+                if(txt.includes('6a') || txt.includes('6c') || txt.includes('6l')) {
+                    antwoord = "📖 **Nefit ProLine NxT Handleiding - Code 6A / 6C (Ionisation / Vlamuitval)**\n\n" +
+                               "• **Oorzaak:** Geen vlamsignaal na ontsteking of wegvallen tijdens bedrijf.\n" +
+                               "• **Actie uit handleiding:**\n" +
+                               "1. Controleer de gasvoordruk (dynamisch minimaal 20 mbar).\n" +
+                               "2. Controleer de ontstekings-/ionisatie-elektrode op slijtage en reinig deze.\n" +
+                               "3. Controleer de sifon op verstopping en zorg dat deze gevuld is.\n" +
+                               "4. Controleer de aardingskabel van de branderautomaat.";
+                } else if(txt.includes('2e') || txt.includes('2f') || txt.includes('c0')) {
+                    antwoord = "📖 **Nefit ProLine NxT Handleiding - Code 2E / C0 (Temperatuur / Drukafwijking)**\n\n" +
+                               "• **Oorzaak:** Abnormale temperatuurstijging of waterdrukprobleem.\n" +
+                               "• **Actie uit handleiding:**\n" +
+                               "1. Controleer of de installatie volledig ontlucht is.\n" +
+                               "2. Controleer de werking van de circulatiepomp.\n" +
+                               "3. Controleer de waterdruk (moet tussen 1.5 en 2.0 bar zijn).";
+                } else {
+                    antwoord = "📖 **Nefit ProLine NxT - Algemene Servicedata**\n\n" +
+                               "• Bedrijfsdruk: 1.5 - 2.0 bar.\n" +
+                               "• Veiligheidstermijn ontsteking: max. 5 seconden.\n" +
+                               "• Stel je specifieke foutcode in (bijv. 'ProLine 6A' of 'ProLine C0') voor de exacte handleidingstappen.";
+                }
+
+            // --- VAILLANT ECOTEC PLUS HANDLEIDING DATA ---
+            } else if(txt.includes('vaillant') || txt.includes('ecotec') || txt.includes('f28') || txt.includes('f.28') || txt.includes('f22')) {
+                if(txt.includes('f28') || txt.includes('f.28') || txt.includes('f29')) {
+                    antwoord = "📖 **Vaillant ecoTEC plus Handleiding - Code F.28 / F.29 (Ontstekingsfout)**\n\n" +
+                               "• **Oorzaak:** Gasblok opent niet, geen vonk of gasdruk te laag bij start.\n" +
+                               "• **Actie uit handleiding:**\n" +
+                               "1. Controleer of de hoofdgaskraan en servicekraan volledig open staan.\n" +
+                               "2. Meet de gasdruk tijdens opstarten.\n" +
+                               "3. Controleer ontstekingspen, afstand en de kabel naar de branderautomaat.\n" +
+                               "4. Controleer op rookgasrecirculatie in de rookgasafvoer.";
+                } else if(txt.includes('f22') || txt.includes('f.22')) {
+                    antwoord = "📖 **Vaillant ecoTEC plus Handleiding - Code F.22 (Droogkookbeveiliging)**\n\n" +
+                               "• **Oorzaak:** Te weinig water in het toestel.\n" +
+                               "• **Actie uit handleiding:**\n" +
+                               "1. Vul de installatie bij tot ca. 1.8 bar.\n" +
+                               "2. Controleer waterdruksensor en bekabeling opbreking.\n" +
+                               "3. Controleer of de automatische ontluchter open staat.";
+                } else {
+                    antwoord = "📖 **Vaillant ecoTEC plus - Servicedata**\n\n" +
+                               "• Vermeld de exacte F-code (bijv. F28 of F22) voor de gedetailleerde diagnose-stappen uit de Vaillant handleiding.";
+                }
+
+            // --- REMEHA AVANTA / AVANTA ACE HANDLEIDING DATA ---
+            } else if(txt.includes('remeha') || txt.includes('avanta') || txt.includes('ace') || txt.includes('e4') || txt.includes('e04') || txt.includes('e10')) {
+                if(txt.includes('e4') || txt.includes('e04') || txt.includes('e5')) {
+                    antwoord = "📖 **Remeha Avanta / Ace Handleiding - Code E4 / E5 (Ionisatie / Vlamstoring)**\n\n" +
+                               "• **Oorzaak:** Geen ionisatiestroom na ontsteking.\n" +
+                               "• **Actie uit handleiding:**\n" +
+                               "1. Controleer gasblok en gasdruk.\n" +
+                               "2. Controleer de ionisatie-pen en reinig deze indien vervuild.\n" +
+                               "3. Controleer de aardingsaansluiting van de ketel (essentieel bij Remeha).\n" +
+                               "4. Druk op de resetknop na verhelpen.";
+                } else if(txt.includes('e7') || txt.includes('e10') || txt.includes('waterdruk')) {
+                    antwoord = "📖 **Remeha Avanta / Ace Handleiding - Code E10 / Waterdruk**\n\n" +
+                               "• **Oorzaak:** Waterdruk te laag (< 0.8 bar).\n" +
+                               "• **Actie uit handleiding:**\n" +
+                               "1. Systeem bijvullen via vulkraan tot 1.5 - 2.0 bar.\n" +
+                               "2. Controleer druksensor op defecten of lekkage rondom de sensor.";
+                } else {
+                    antwoord = "📖 **Remeha Avanta / Avanta Ace - Servicedata**\n\n" +
+                               "• Vermeld de specifieke E-code (bijv. E4 of E10) voor de instructies uit de Remeha handleiding.";
+                }
+            } else {
+                antwoord = "⚠️ Geen specifieke handleiding direct gevonden voor deze invoer.\n\n" +
+                           "De volgende handleidingen zitten in het systeem:\n" +
+                           "• Nefit ProLine NxT (codes zoals 6A, C0)\n" +
+                           "• Vaillant ecoTEC plus (codes zoals F28, F22)\n" +
+                           "• Remeha Avanta / Avanta Ace (codes zoals E4, E10)\n\n" +
+                           "Typ bijvoorbeeld: 'ProLine 6A' of 'ecoTEC F28'.";
+            }
+
+            botDiv.innerText = antwoord;
+            box.appendChild(botDiv);
+            box.scrollTop = box.scrollHeight;
+        }, 500);
+    }
+</script>
+
+</body>
+</html>
